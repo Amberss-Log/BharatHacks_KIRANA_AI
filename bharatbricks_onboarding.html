@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BharatBricks — Onboarding</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --saffron:#E8541A;--saffron-light:#FFF0EA;--saffron-mid:#F7A97A;
+  --green:#1A7A4A;--green-light:#E8F5EE;
+  --ink:#1A1A1A;--muted:#6B6B6B;--border:#E2E2E2;
+  --card:#FFFFFF;--bg:#F7F4F0;--radius:14px;
+}
+body{font-family:'Noto Sans',sans-serif;background:var(--bg);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+h1,h2,h3,.display{font-family:'Baloo 2',sans-serif}
+
+.phone-frame{
+  width:390px;min-height:720px;background:var(--card);border-radius:36px;
+  box-shadow:0 0 0 1px rgba(0,0,0,.08),0 24px 60px rgba(0,0,0,.12);
+  overflow:hidden;display:flex;flex-direction:column;position:relative;
+}
+.status-bar{height:44px;background:var(--saffron);display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0}
+.status-bar span{font-size:12px;font-weight:600;color:#fff;font-family:'Baloo 2',sans-serif}
+.progress-bar{height:4px;background:#E8E8E8;flex-shrink:0}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--saffron),#F5A623);transition:width .4s cubic-bezier(.4,0,.2,1)}
+.screen{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.screen-inner{flex:1;padding:28px 24px 24px;display:flex;flex-direction:column}
+.step-chip{display:inline-flex;align-items:center;gap:6px;background:var(--saffron-light);color:var(--saffron);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;margin-bottom:14px;font-family:'Baloo 2',sans-serif;letter-spacing:.4px}
+.step-title{font-size:22px;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:6px;font-family:'Baloo 2',sans-serif}
+.step-sub{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:24px}
+.field-group{display:flex;flex-direction:column;gap:14px;flex:1}
+label.field-label{display:block;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+input[type=text],input[type=tel],input[type=number],select,textarea{
+  width:100%;padding:13px 16px;border:1.5px solid var(--border);border-radius:10px;
+  font-size:15px;font-family:'Noto Sans',sans-serif;color:var(--ink);
+  background:#FAFAFA;outline:none;transition:border-color .2s,background .2s;
+  -webkit-appearance:none;appearance:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--saffron);background:#fff}
+.field-hint{font-size:11px;color:var(--muted);margin-top:4px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* Pills */
+.pill-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.pill{
+  padding:8px 14px;border-radius:20px;border:1.5px solid var(--border);
+  font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;
+  transition:all .15s;background:#fff;
+  display:flex;align-items:center;gap:5px;
+}
+.pill:hover{border-color:var(--saffron-mid);color:var(--saffron)}
+.pill.active{border-color:var(--saffron);background:var(--saffron-light);color:var(--saffron);font-weight:600}
+.pill .pe{font-size:15px}
+
+/* Toggle cards */
+.toggle-card{
+  display:flex;align-items:flex-start;gap:12px;padding:14px;
+  border:1.5px solid var(--border);border-radius:10px;cursor:pointer;
+  background:#fff;transition:all .15s;
+}
+.toggle-card:hover{border-color:var(--saffron-mid)}
+.toggle-card.active{border-color:var(--saffron);background:var(--saffron-light)}
+.tc-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.toggle-card.active .tc-check{background:var(--saffron);border-color:var(--saffron)}
+.tc-body p{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:2px;font-family:'Baloo 2',sans-serif}
+.tc-body span{font-size:12px;color:var(--muted);line-height:1.4}
+.cold-chip{font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px;background:var(--saffron-light);color:var(--saffron);margin-left:4px}
+
+/* Upload zone */
+.upload-zone{
+  border:2px dashed var(--border);border-radius:12px;padding:22px;
+  text-align:center;cursor:pointer;transition:all .2s;background:#FAFAFA;
+}
+.upload-zone:hover{border-color:var(--saffron);background:var(--saffron-light)}
+.upload-zone .uz-icon{font-size:26px;margin-bottom:8px}
+.upload-zone p{font-size:13px;font-weight:600;color:var(--muted)}
+.upload-zone small{font-size:11px;color:var(--muted)}
+.upload-zone.has-file{border-style:solid;border-color:var(--green);background:var(--green-light)}
+.upload-zone.has-file p{color:var(--green)}
+
+/* OTP */
+.otp-row{display:flex;gap:8px;margin-top:8px}
+.otp-box{flex:1;height:52px;border:1.5px solid var(--border);border-radius:10px;text-align:center;font-size:22px;font-weight:700;font-family:'Baloo 2',sans-serif;background:#FAFAFA;color:var(--ink);outline:none;transition:border-color .2s}
+.otp-box:focus{border-color:var(--saffron);background:#fff}
+
+/* Language buttons */
+.lang-btn{flex:1;padding:12px;border:1.5px solid var(--border);border-radius:10px;text-align:center;cursor:pointer;font-family:'Baloo 2',sans-serif;font-weight:600;font-size:14px;color:var(--muted);background:#fff;transition:all .15s}
+.lang-btn:hover,.lang-btn.active{border-color:var(--saffron);background:var(--saffron-light);color:var(--saffron)}
+
+/* Nav */
+.nav-row{padding:16px 24px 28px;display:flex;gap:10px;flex-shrink:0}
+.btn-back{flex:0 0 52px;height:52px;border-radius:12px;border:1.5px solid var(--border);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:20px;transition:all .15s}
+.btn-back:hover{border-color:var(--saffron-mid);color:var(--saffron)}
+.btn-next{flex:1;height:52px;border-radius:12px;border:none;background:var(--saffron);color:#fff;font-size:16px;font-weight:700;font-family:'Baloo 2',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;letter-spacing:.3px}
+.btn-next:hover{background:#C84414;transform:translateY(-1px)}
+.btn-next:active{transform:translateY(0)}
+.btn-next.disabled{background:#C8C8C8;pointer-events:none}
+.btn-otp{width:100%;height:48px;border-radius:10px;border:none;background:var(--saffron);color:#fff;font-size:14px;font-weight:700;font-family:'Baloo 2',sans-serif;cursor:pointer;margin-top:4px;transition:background .2s}
+.btn-otp:disabled{background:#C8C8C8;cursor:not-allowed}
+
+/* Done screen */
+.done-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 24px;text-align:center}
+.done-circle{width:76px;height:76px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:34px;margin-bottom:18px}
+.done-title{font-size:22px;font-weight:700;color:var(--ink);margin-bottom:6px;font-family:'Baloo 2',sans-serif}
+.done-sub{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px}
+.done-summary{width:100%;background:#FAFAFA;border:1px solid var(--border);border-radius:12px;padding:14px;text-align:left;margin-bottom:20px}
+.done-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)}
+.done-row:last-child{border-bottom:none}
+.dr-label{font-size:12px;color:var(--muted)}
+.dr-val{font-size:12px;font-weight:600;color:var(--ink);max-width:55%;text-align:right}
+.btn-launch{width:100%;height:52px;border-radius:12px;border:none;background:var(--green);color:#fff;font-size:16px;font-weight:700;font-family:'Baloo 2',sans-serif;cursor:pointer;letter-spacing:.3px;transition:background .2s}
+.btn-launch:hover{background:#125c37}
+.divider-or{text-align:center;font-size:12px;color:var(--muted);margin:4px 0}
+</style>
+</head>
+<body>
+
+<div class="phone-frame">
+  <div class="status-bar">
+    <span>BharatBricks 🌿</span>
+    <span id="step-label">1 / 7</span>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="prog" style="width:14%"></div>
+  </div>
+  <div class="screen" id="screen"></div>
+  <div class="nav-row" id="nav-row">
+    <button class="btn-back" id="btn-back" onclick="goBack()">←</button>
+    <button class="btn-next" id="btn-next" onclick="goNext()">Aage Badho →</button>
+  </div>
+</div>
+
+<script>
+// ── shared state ──────────────────────────────────────────────────────────────
+const D = {};   // all collected data lives here
+let step = 0;
+
+// ── step definitions ──────────────────────────────────────────────────────────
+const STEPS = [
+
+  // ── 0: Phone + OTP ──────────────────────────────────────────────────────────
+  {
+    label: '1 / 7', prog: '14%',
+    render() {
+      return `
+      <div class="screen-inner">
+        <div class="step-chip">👤 Pehchan</div>
+        <h2 class="step-title">Aapka phone number?</h2>
+        <p class="step-sub">Yahi aapka login rahega. OTP se verify karenge.</p>
+        <div class="field-group">
+          <div>
+            <label class="field-label">Mobile Number</label>
+            <div style="display:flex;gap:8px;margin-top:2px">
+              <div style="padding:13px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;color:var(--muted);background:#FAFAFA;flex-shrink:0;font-family:'Noto Sans',sans-serif">+91</div>
+              <input type="tel" id="f-phone" maxlength="10" placeholder="98765 43210"
+                value="${D.phone || ''}"
+                oninput="D.phone=this.value.replace(/\\D/g,'').slice(0,10);syncNext()">
+            </div>
+            <p class="field-hint">10-digit number, no spaces or dashes</p>
+          </div>
+
+          <button class="btn-otp" id="otp-btn" onclick="sendOTP()"
+            ${D.otpSent ? 'disabled' : ''}>
+            ${D.otpSent ? '✓ OTP Sent — Check your phone' : 'OTP भेजें (Send OTP)'}
+          </button>
+
+          <div id="otp-section" style="display:${D.otpSent ? 'block' : 'none'}">
+            <label class="field-label">Enter OTP</label>
+            <div class="otp-row">
+              ${[0,1,2,3].map(i =>
+                `<input class="otp-box" id="otp${i}" type="tel" maxlength="1"
+                  oninput="otpInput(this,${i})" onkeydown="otpKey(event,${i})">`
+              ).join('')}
+            </div>
+            <p class="field-hint" style="margin-top:8px">For demo: enter any 4 digits</p>
+          </div>
+        </div>
+      </div>`;
+    }
+  },
+
+  // ── 1: Name + Language ───────────────────────────────────────────────────────
+  {
+    label: '2 / 7', prog: '28%',
+    render() {
+      return `
+      <div class="screen-inner">
+        <div class="step-chip">👋 Swagat</div>
+        <h2 class="step-title">Aapko kya bulayein?</h2>
+        <p class="step-sub">Aapka naam aur preferred language batayein.</p>
+        <div class="field-group">
+          <div>
+            <label class="field-label">Aapka Naam (Owner Name)</label>
+            <input type="text" id="f-name" placeholder="Jaise: Sharma Ji, Ramesh Bhai..."
+              value="${D.name || ''}"
+              oninput="D.name=this.value;syncNext()">
+          </div>
+          <div>
+            <label class="field-label">Language / भाषा</label>
+            <div style="display:flex;gap:8px;margin-top:6px">
+              <div class="lang-btn ${D.lang==='hi'?'active':''}" onclick="pick('lang','hi')">🇮🇳 हिन्दी</div>
+              <div class="lang-btn ${D.lang==='en'?'active':''}" onclick="pick('lang','en')">🇬🇧 English</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }
+  },
+
+  // ── 2: Shop Identity ─────────────────────────────────────────────────────────
+  {
+    label: '3 / 7', prog: '42%',
+    render() {
+      const types = [
+        ['🛒','Kirana / Grocery'],['💊','Pharma'],['🍱','Food / Tiffin'],
+        ['👗','Textiles'],['📱','Electronics'],['💍','Jewellery']
+      ];
+      return `
+      <div class="screen-inner">
+        <div class="step-chip">🏪 Dukan Ki Pehchan</div>
+        <h2 class="step-title">Aapki dukan ka naam?</h2>
+        <p class="step-sub">Hum isko aapke insights mein use karenge.</p>
+        <div class="field-group">
+          <div>
+            <label class="field-label">Dukan Ka Naam (Shop Name)</label>
+            <input type="text" id="f-shop" placeholder="Jaise: Sharma Ji Kirana Store"
+              value="${D.shopName || ''}"
+              oninput="D.shopName=this.value;syncNext()">
+          </div>
+          <div>
+            <label class="field-label">Dukan Ka Prakar (Shop Type)</label>
+            <div class="pill-group">
+              ${types.map(([e,t]) =>
+                `<div class="pill ${D.shopType===t?'active':''}" onclick="pick('shopType','${t}')">
+                  <span class="pe">${e}</span>${t}
+                </div>`
+              ).join('')}
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }
+  },
+
+  // ── 3: Location ──────────────────────────────────────────────────────────────
+  {
+    label: '4 / 7', prog: '56%',
+    render() {
+      const states = ['Madhya Pradesh','Uttar Pradesh','Maharashtra','Rajasthan',
+        'Gujarat','Bihar','Punjab','Haryana','Karnataka','Tamil Nadu',
+        'Andhra Pradesh','Telangana','West Bengal','Odisha','Jharkhand',
+        'Chhattisgarh','Kerala','Assam','Delhi','Other'];
+      const areas = [['🌆','Metro'],['🏙️','Urban'],['🏘️','Semi-urban'],['🌾','Rural']];
+      const leads = ['1 din','2 din','3–4 din','5–7 din'];
+      return `
+      <div class="screen-inner">
+        <div class="step-chip">📍 Jagah</div>
+        <h2 class="step-title">Dukan kahan hai?</h2>
+        <p class="step-sub">Location se seasonal trends aur supplier lead time samajhte hain.</p>
+        <div class="field-group">
+          <div>
+            <label class="field-label">Gaon / Shahar (Village / City)</label>
+            <input type="text" id="f-loc" placeholder="Jaise: Simrol, Indore"
+              value="${D.location || ''}"
+              oninput="D.location=this.value;syncNext()">
+          </div>
+          <div class="row2">
+            <div>
+              <label class="field-label">District</label>
+              <input type="text" id="f-dist" placeholder="Jaise: Indore"
+                value="${D.district || ''}"
+                oninput="D.district=this.value">
+            </div>
+            <div>
+              <label class="field-label">State</label>
+              <select id="f-state" onchange="D.state=this.value">
+                <option value="">Select...</option>
+                ${states.map(s =>
+                  `<option value="${s}" ${D.state===s?'selected':''}>${s}</option>`
+                ).join('')}
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="field-label">Area Type</label>
+            <div class="pill-group">
+              ${areas.map(([e,t]) =>
+                `<div class="pill ${D.areaType===t?'active':''}" onclick="pick('areaType','${t}')">
+                  <span class="pe">${e}</span>${t}
+                </div>`
+              ).join('')}
+            </div>
+          </div>
+          <div>
+            <label class="field-label">Supplier Se Maal Aane Ka Time (Lead Time)</label>
+            <div class="pill-group">
+              ${leads.map(t =>
+                `<div class="pill ${D.leadTime===t?'active':''}" onclick="pick('leadTime','${t}')">${t}</div>`
+              ).join('')}
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }
+  },
+
+  // ── 4: Business Scale ────────────────────────────────────────────────────────
+  {
+    label: '5 / 7', prog: '70%',
+    render() {
+      const suppliers = ['1','2–3','4–6','7+'];
+      const upiOpts = [['✅','Haan (Yes)','yes'],['❌','Nahi (No)','no'],['🔄','Kabhi Kabhi','sometimes']];
+      return `
+      <div class="screen-inner">
+        <div class="step-chip">📊 Dukan Ka Scale</div>
+        <h2 class="step-title">Dukan kitni badi hai?</h2>
+        <p class="step-sub">Rough numbers bilkul theek hain — AI ko calibrate karne mein help karta hai.</p>
+        <div class="field-group">
+          <div class="row2">
+            <div>
+              <label class="field-label">Monthly Revenue (₹)</label>
+              <input type="number" placeholder="1,20,000"
+                value="${D.revenue || ''}"
+                oninput="D.revenue=this.value;syncNext()">
+            </div>
+            <div>
+              <label class="field-label">Daily Transactions</label>
+              <input type="number" placeholder="80"
+                value="${D.transactions || ''}"
+                oninput="D.transactions=this.value">
+            </div>
+          </div>
+          <div class="row2">
+            <div>
+              <label class="field-label">Avg Bill Size (₹)</label>
+              <input type="number" placeholder="180"
+                value="${D.avgBill || ''}"
+                oninput="D.avgBill=this.value">
+            </div>
+            <div>
+              <label class="field-label">Products In Stock</label>
+              <input type="number" placeholder="150"
+                value="${D.products || ''}"
+                oninput="D.products=this.value">
+            </div>
+          </div>
+          <div>
+            <label class="field-label">Kitne Suppliers Hain?</label>
+            <div class="pill-group">
+              ${suppliers.map(v =>
+                `<div class="pill ${D.suppliers===v?'active':''}" onclick="pick('suppliers','${v}')">${v}</div>`
+              ).join('')}
+            </div>
+          </div>
+          <div>
+            <label class="field-label">UPI / Digital Payments?</label>
+            <div class="pill-group">
+              ${upiOpts.map(([e,label,v]) =>
+                `<div class="pill ${D.upi===v?'active':''}" onclick="pick('upi','${v}')">
+                  <span class="pe">${e}</span>${label}
+                </div>`
+              ).join('')}
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }
+  },
+
+  // ── 5: Stock Upload + Cold-start ─────────────────────────────────────────────
+  {
+    label: '6 / 7', prog: '85%',
+    render() {
+      return `
+      <div class="screen-inner">
+        <div class="step-chip">📦 Current Stock</div>
+        <h2 class="step-title">Abhi ka stock share karein?</h2>
+        <p class="step-sub">CSV ya Excel upload karo — ya skip karo aur cold-start mode choose karo.</p>
+        <div class="field-group">
+          <div class="upload-zone ${D.stockFile?'has-file':''}" onclick="fakeUpload()">
+            <div class="uz-icon">${D.stockFile ? '✅' : '📂'}</div>
+            <p>${D.stockFile ? D.stockFile : 'Yahaan click karke file upload karein'}</p>
+            <small>${D.stockFile ? 'File ready hai!' : 'CSV, Excel — columns: product_name, qty, price_per_unit'}</small>
+          </div>
+
+          <div class="divider-or">— ya cold-start mode choose karein —</div>
+
+          <div>
+            <label class="field-label">Pehle Kuch Din Kaise Chalein?</label>
+            <div style="margin-top:8px;display:flex;flex-direction:column;gap:10px">
+
+              <div class="toggle-card ${D.coldStart==='rag'?'active':''}" onclick="pick('coldStart','rag')">
+                <div class="tc-check">
+                  ${D.coldStart==='rag'
+                    ? '<svg viewBox="0 0 10 10" width="10" height="10"><path d="M2 5l2.5 2.5L8 3" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+                    : ''}
+                </div>
+                <div class="tc-body">
+                  <p>Day 1 se AI Insights <span class="cold-chip">RAG Prior</span></p>
+                  <span>Hamare US retail database mein aapki dukan se milti-julti dukan ka data use karke Day 1 se insights milenge</span>
+                </div>
+              </div>
+
+              <div class="toggle-card ${D.coldStart==='learn'?'active':''}" onclick="pick('coldStart','learn')">
+                <div class="tc-check">
+                  ${D.coldStart==='learn'
+                    ? '<svg viewBox="0 0 10 10" width="10" height="10"><path d="M2 5l2.5 2.5L8 3" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+                    : ''}
+                </div>
+                <div class="tc-body">
+                  <p>7 Din Seekhne Do <span class="cold-chip">Recommended</span></p>
+                  <span>Pehle 7 din sirf aapka data collect hoga — phir aapki dukan ke hisaab se personalized insights milenge</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }
+  },
+
+  // ── 6: Done ──────────────────────────────────────────────────────────────────
+  {
+    label: '7 / 7', prog: '100%',
+    render() {
+      const rows = [
+        ['Owner',      D.name       || '—'],
+        ['Phone',      D.phone ? '+91 ' + D.phone : '—'],
+        ['Language',   D.lang === 'hi' ? 'हिन्दी' : D.lang === 'en' ? 'English' : '—'],
+        ['Dukan',      D.shopName   || '—'],
+        ['Type',       D.shopType   || '—'],
+        ['Location',   [D.location, D.district, D.state].filter(Boolean).join(', ') || '—'],
+        ['Area',       D.areaType   || '—'],
+        ['Lead Time',  D.leadTime   || '—'],
+        ['Rev / Month', D.revenue   ? '₹' + Number(D.revenue).toLocaleString('en-IN') : '—'],
+        ['Txn / Day',  D.transactions || '—'],
+        ['Cold-Start', D.coldStart === 'rag' ? 'Day 1 RAG' : D.coldStart === 'learn' ? '7-Day Learn' : '—'],
+        ['Stock CSV',  D.stockFile  || 'Skipped'],
+      ];
+      return `
+      <div class="done-screen">
+        <div class="done-circle">🎉</div>
+        <h2 class="done-title">Swagat hai, ${D.name || 'Dukandaar Ji'}!</h2>
+        <p class="done-sub">Aapka profile save ho gaya. Ab BharatBricks aapki dukan ko profitable banana shuru karega.</p>
+        <div class="done-summary">
+          ${rows.map(([l,v]) =>
+            `<div class="done-row">
+              <span class="dr-label">${l}</span>
+              <span class="dr-val">${v}</span>
+            </div>`
+          ).join('')}
+        </div>
+        <button class="btn-launch" onclick="launchApp()">🚀 Dukan Kholein — Main App →</button>
+      </div>`;
+    }
+  }
+];
+
+// ── navigation ────────────────────────────────────────────────────────────────
+function render() {
+  const s = STEPS[step];
+  document.getElementById('step-label').textContent = s.label;
+  document.getElementById('prog').style.width = s.prog;
+  document.getElementById('screen').innerHTML = s.render();
+
+  const navRow = document.getElementById('nav-row');
+  const back   = document.getElementById('btn-back');
+  navRow.style.display = step === 6 ? 'none' : 'flex';
+  if (back) back.style.display = step === 0 ? 'none' : 'flex';
+
+  syncNext();
+}
+
+function syncNext() {
+  const btn = document.getElementById('btn-next');
+  if (!btn) return;
+  btn.classList.toggle('disabled', !canProceed());
+}
+
+function canProceed() {
+  if (step === 0) return !!D.otpVerified;
+  if (step === 1) return !!(D.name && D.name.trim() && D.lang);
+  if (step === 2) return !!(D.shopName && D.shopName.trim() && D.shopType);
+  if (step === 3) return !!(D.location && D.location.trim() && D.areaType);
+  if (step === 4) return !!(D.revenue && Number(D.revenue) > 0);
+  if (step === 5) return !!(D.coldStart);
+  return true;
+}
+
+function goNext() { if (canProceed() && step < STEPS.length - 1) { step++; render(); } }
+function goBack() { if (step > 0) { step--; render(); } }
+
+// ── OTP flow ──────────────────────────────────────────────────────────────────
+function sendOTP() {
+  const phone = (document.getElementById('f-phone').value || '').replace(/\D/g,'');
+  if (phone.length !== 10) { alert('Sahi 10-digit number daalo!'); return; }
+  D.phone = phone;
+  D.otpSent = true;
+  render();
+}
+
+function otpInput(el, i) {
+  el.value = el.value.replace(/\D/g,'').slice(-1);
+  if (el.value && i < 3) document.getElementById('otp' + (i+1)).focus();
+  checkOTP();
+}
+function otpKey(e, i) {
+  if (e.key === 'Backspace' && !e.target.value && i > 0)
+    document.getElementById('otp' + (i-1)).focus();
+}
+function checkOTP() {
+  const otp = [0,1,2,3].map(i => {
+    const el = document.getElementById('otp'+i);
+    return el ? el.value : '';
+  }).join('');
+  if (otp.length === 4) { D.otpVerified = true; syncNext(); }
+}
+
+// ── generic pill / toggle picker ──────────────────────────────────────────────
+function pick(key, val) {
+  D[key] = val;
+  render();          // re-render so active classes update
+}
+
+// ── fake file upload (demo) ───────────────────────────────────────────────────
+function fakeUpload() {
+  const files = [
+    'stock_march_2025.csv',
+    'inventory_sharma_store.xlsx',
+    'products_list.csv'
+  ];
+  D.stockFile = files[Math.floor(Math.random() * files.length)];
+  render();
+}
+
+// ── final launch ─────────────────────────────────────────────────────────────
+function launchApp() {
+  // In production: POST D to your Databricks REST endpoint / Delta table
+  // For demo: log to console and alert
+  console.log('BharatBricks shop profile:', JSON.stringify(D, null, 2));
+  alert(
+    'Profile saved!\n\n' +
+    'In production, this calls:\n' +
+    'POST /api/2.0/sql/statements\n' +
+    'INSERT INTO workspace.default.shop_profiles ...\n\n' +
+    'Then redirects to Main POS screen.'
+  );
+}
+
+// ── boot ──────────────────────────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
